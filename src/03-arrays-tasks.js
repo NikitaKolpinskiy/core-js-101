@@ -471,11 +471,10 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  const arr = [];
-  for (let i = start; i <= end; i + 1) {
-    arr.push(i);
+  if (start === end) {
+    return [start];
   }
-  return arr;
+  return Array.from(Array(end - start + 1), (x, index) => start + index);
 }
 
 /**
