@@ -20,8 +20,11 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
+
+  this.getArea = () => this.height * this.width;
 }
 
 
@@ -35,8 +38,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+    return JSON.stringify(obj);
 }
 
 
@@ -51,8 +54,8 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON( proto, json) {
+  return Object.setPrototypeOf(JSON.parse(json), proto);
 }
 
 
@@ -110,34 +113,77 @@ function fromJSON(/* proto, json */) {
  *  For more examples see unit tests.
  */
 
+class CssSelectorBuilder {
+  constructor() {
+    this.result = '';
+    this.weight = '';
+  }
+
+  checkOccurrence(order) {
+    if (order < parseInt(this.weight[this.weight.length - 1], 10)) {
+      throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+    }
+    if (this.weight.includes(String(order)) && (order === 1 || order === 2 || order === 6)) throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    this.weight += String(order);
+  }
+
+  element(value) {
+    this.checkOccurrence(1);
+    this.result += value;
+    return this;
+  }
+
+  id(value) {
+    this.checkOccurrence(2);
+    this.result += `#${value}`;
+    return this;
+  }
+
+  class(value) {
+    this.checkOccurrence(3);
+    this.result += `.${value}`;
+    return this;
+  }
+
+  attr(value) {
+    this.checkOccurrence(4);
+    this.result += `[${value}]`;
+    return this;
+  }
+
+  pseudoClass(value) {
+    this.checkOccurrence(5);
+    this.result += `:${value}`;
+    return this;
+  }
+
+  pseudoElement(value) {
+    this.checkOccurrence(6);
+    this.result += `::${value}`;
+    return this;
+  }
+
+  combine(selector1, combinator, selector2) {
+    this.result = `${selector1.result} ${combinator} ${selector2.result}`;
+    return this;
+  }
+
+  stringify() {
+    return this.result;
+  }
+}
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  id(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  class(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  attr(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
-  },
-
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
-  },
+  element: (value) => new CssSelectorBuilder().element(value),
+  id: (value) => new CssSelectorBuilder().id(value),
+  class: (value) => new CssSelectorBuilder().class(value),
+  attr: (value) => new CssSelectorBuilder().attr(value),
+  pseudoClass: (value) => new CssSelectorBuilder().pseudoClass(value),
+  pseudoElement: (value) => new CssSelectorBuilder().pseudoElement(value),
+  combine: (selector1, combinator, selector2) => (
+    new CssSelectorBuilder().combine(selector1, combinator, selector2)
+  ),
+  stringify: () => CssSelectorBuilder.stringify(),
 };
 
 
