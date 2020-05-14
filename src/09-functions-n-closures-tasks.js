@@ -108,14 +108,14 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return (...args) => {
+  return () => {
     try {
-      return func(...args);
-    } catch (e) {
-      return retry(func, attempts - 1)(...args);
+      return func();
+    } catch (error) {
+      return retry(func, attempts - 1)();
     }
   };
-}s;
+}
 
 
 /**

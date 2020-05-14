@@ -28,13 +28,16 @@
  *
  */
 function getFizzBuzz(num) {
-  if(num % 3 === 0) {
-    return 'Fizz'
-  } else if (numb % 5 === 0) {
-    return 'Buzz'
-  } else if (num % 15 === 0) {
-    return 'FizzBuzz'
+  const fizz = (num % 3 === 0);
+  const buzz = (num % 5 === 0);
+  if (fizz && buzz) {
+    return 'FizzBuzz';
+  } if (fizz) {
+    return 'Fizz';
+  } if (buzz) {
+    return 'Buzz';
   }
+  return num;
 }
 
 
@@ -50,11 +53,10 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-  if(n === 1) {
+  if (n === 1) {
     return 1;
-  } else {
-    return  n * getFactorial(n - 1);
   }
+  return n * getFactorial(n - 1);
 }
 
 
@@ -91,12 +93,10 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function getSumBetweenNumbers(n1, n2) {
-  let result = 0;
-  for (let i = n1; i < n2 + 1; i++) {
-    sum += i;
-  }
-  return result;
+function isTriangle(a, b, c) {
+  const gip = Math.max(a, b, c);
+  const sum = a + b + c;
+  return ((sum - gip) > gip);
 }
 
 /**
@@ -242,7 +242,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-  let result = num.toString().split('').reverse().join('');
+  const result = num.toString().split('').reverse().join('');
   return +result;
 }
 
@@ -299,10 +299,10 @@ function isCreditCardNumber(cnn) {
  */
 function getDigitalRoot(num) {
   if (num < 10) {
-    return num
+    return num;
   }
-    let result = num.toString().split('').map((e) => +e).reduce((acc, curr) => acc + curr);
-    return getDigitalRoot(result);
+  const result = num.toString().split('').map((e) => +e).reduce((acc, curr) => acc + curr);
+  return getDigitalRoot(result);
 }
 
 
@@ -328,23 +328,15 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  const bracketsConfig = [['[', ']'], ['(', ')'], ['{', '}'], ['<', '>']];
-  const openingBracketsStack = [];
-  for (const s of str) {
-    const i = bracketsConfig.findIndex((item) => item.includes(s));
-    const j = bracketsConfig[i].findIndex((item) => item === s);
-    if (j === 0) openingBracketsStack.push({ s, i, j });
-    else {
-      const lastOpeningBracket = openingBracketsStack.pop();
-      if (lastOpeningBracket === undefined) return false;
-      if (!(lastOpeningBracket.i === i)) return false;
-    }
+  if (str.length % 2 !== 0) {
+    return false;
   }
-  if (openingBracketsStack.length !== 0) return false;
-  return true;
+  let newString = str;
+  for (let i = 0; i <= str.length / 2; i += 1) {
+    newString = newString.replace('[]', '').replace('{}', '').replace('()', '').replace('<>', '');
+  }
+  return newString.length === 0;
 }
-
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -384,11 +376,19 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  let start = '';
-  while (pathes.every((path) => path[start.length] === pathes[0][start.length])) {
-    start += pathes[0][start.length];
-  }
-  return start.slice(0, start.lastIndexOf('/') + 1);
+  const arrPathes = pathes.map((str) => str.split('/').map((word) => (word === '' ? '/' : word)));
+  const answerArr = arrPathes.shift();
+  let answerStr = false;
+  arrPathes.forEach((arr) => {
+    const newStr = answerArr.filter((str, index) => str === arr[index]).join('/');
+    if (!answerStr) {
+      answerStr = newStr;
+    } else if (newStr.length < answerStr.length) {
+      answerStr = newStr;
+    }
+  });
+  answerStr = answerStr.replace('//', '/');
+  return answerStr.length < 2 ? answerStr : `${answerStr}/`;
 }
 
 /**

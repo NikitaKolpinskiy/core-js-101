@@ -219,7 +219,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-  return arr.map((e) => Math.pow(e, 2));
+  return arr.map((e) => e ** 2);
 }
 
 
@@ -472,7 +472,7 @@ function getIdentityMatrix(n) {
  */
 function getIntervalArray(start, end) {
   const arr = [];
-  for (let i = start; i <= end; i++) {
+  for (let i = start; i <= end; i + 1) {
     arr.push(i);
   }
   return arr;
@@ -524,7 +524,16 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  throw new Error('Not implemented');
+  return array.reduce((map, el) => {
+    if (!map.has(keySelector(el))) {
+      map.set(keySelector(el), new Array(valueSelector(el)));
+    } else {
+      const buffer = map.get(keySelector(el));
+      buffer.push(valueSelector(el));
+      map.set(keySelector(el), buffer);
+    }
+    return map;
+  }, new Map());
 }
 
 

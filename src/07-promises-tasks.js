@@ -99,16 +99,11 @@ function getFastestPromise(array) {
  *
  */
 async function chainPromises(array, action) {
-  return new Promise(async (resolve) => {
-    const result = [];
-    await array.map(async (promise) => {
-      try {
-        const smth = await promise;
-        result.push(smth);
-      } catch (e) {}
-    });
-    resolve(result.reduce(action));
-  });
+  const result = [];
+  await array.map((item) => item
+    .then((value) => result.push(value))
+    .catch(() => {}));
+  return result.reduce(action);
 }
 
 module.exports = {
