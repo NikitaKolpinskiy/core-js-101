@@ -57,7 +57,6 @@ function getRegexForPitSpot() {
 }
 
 
-
 /**
  * Returns the password validator regex.
  * Regex will validate a password to make sure it meets the follwing criteria:

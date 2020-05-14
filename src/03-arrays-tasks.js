@@ -242,7 +242,7 @@ function getMovingSum(arr) {
   return arr.map((item) => {
     counter += item;
     return counter;
-  })
+  });
 }
 
 /**
@@ -257,7 +257,7 @@ function getMovingSum(arr) {
  * [ "a" ] => []
  */
 function getSecondItems(arr) {
-  return arr.filter((e, i) => i % 2 !== 0 );
+  return arr.filter((e, i) => i % 2 !== 0);
 }
 
 
@@ -294,7 +294,7 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-  return arr.sort((a,b) => b - a).slice(0, 3)
+  return arr.sort((a, b) => b - a).slice(0, 3);
 }
 
 
@@ -346,7 +346,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-  return arr.length ? arr.reduce((a,b) => a + b) : 0;
+  return arr.length ? arr.reduce((a, b) => a + b) : 0;
 }
 
 /**
@@ -379,7 +379,7 @@ function getFalsyValuesCount(arr) {
  *    [ null, undefined, null ], null => 2
  *    [ true, 0, 1, 'true' ], true => 1
  */
-function findAllOccurences(arr, item ) {
+function findAllOccurences(arr, item) {
   return arr.filter((e) => e === item).length;
 }
 
@@ -395,7 +395,7 @@ function findAllOccurences(arr, item ) {
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
 function toStringList(arr) {
-  return arr.join(',')
+  return arr.join(',');
 }
 
 
@@ -471,7 +471,7 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  let arr = [];
+  const arr = [];
   for (let i = start; i <= end; i++) {
     arr.push(i);
   }

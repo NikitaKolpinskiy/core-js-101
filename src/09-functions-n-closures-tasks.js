@@ -115,7 +115,7 @@ function retry(func, attempts) {
       return retry(func, attempts - 1)(...args);
     }
   };
-}s
+}s;
 
 
 /**

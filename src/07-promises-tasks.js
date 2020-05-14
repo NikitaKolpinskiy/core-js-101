@@ -55,7 +55,7 @@ function willYouMarryMe(isPositiveAnswer) {
  *
  */
 function processAllPromises(array) {
-  return Promise.all(array).then((result) => result)
+  return Promise.all(array).then((result) => result);
 }
 
 /**
